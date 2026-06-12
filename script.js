@@ -173,47 +173,26 @@ let currentHeroIndex = 0;
 let totalHeroSlides = 0;
 let heroInterval;
 let isHeroPaused = false;
-let datosHeroGlobal = []; // Guardamos los datos para poder accederlos al cambiar de slide
+let datosHeroGlobal = []; 
 
 fetch('site-config.json')
     .then(response => response.json())
     .then(data => {
         
         // --- A. RENDERIZAR EL HERO ---
-        const heroContainer = document.getElementById('hero-slider-container');
+        const dotsContainer = document.getElementById('hero-dots-container');
         const arrowsWrapper = document.getElementById('hero-arrows-wrapper');
-        const dotsContainer = document.getElementById('hero-dots-container'); // <- Atrapamos el contenedor de pelotitas
         
         datosHeroGlobal = data.hero;
         totalHeroSlides = datosHeroGlobal.length;
 
-        if (heroContainer && totalHeroSlides > 0) {
-            let dotsHtml = ''; // <- Variable para guardar las pelotitas
+        if (totalHeroSlides > 0) {
+            let dotsHtml = ''; 
 
             datosHeroGlobal.forEach((slide, index) => {
-                
                 const textoDelBoton = slide.textoBoton || 'Sobre JEMO';
                 const enlace = slide.enlaceBoton || '#nosotros';
-                const rutaArchivo = slide.archivoFondo || slide.video;
 
-                // 1. DETECTAR SI ES VIDEO O IMAGEN
-                const esVideo = rutaArchivo.toLowerCase().endsWith('.mp4') || 
-                                rutaArchivo.toLowerCase().endsWith('.webm');
-
-                let htmlFondo = "";
-
-                if (esVideo) {
-                    htmlFondo = `
-                        <video autoplay loop muted playsinline class="video-background">
-                            <source src="${rutaArchivo}" type="video/mp4">
-                        </video>`;
-                } else {
-                    htmlFondo = `
-                        <div class="video-background" style="background-image: url('${rutaArchivo}'); background-size: cover; background-position: center; width:100%; height:100%; position:absolute; inset:0; z-index:1;">
-                        </div>`;
-                }
-                
-                // 2. MOTOR DE CLIC INTELIGENTE
                 let accionClick = "";
                 if (enlace.startsWith('#')) {
                     const targetId = enlace.substring(1);
@@ -222,24 +201,19 @@ fetch('site-config.json')
                     accionClick = `window.open('${enlace}', '_blank');`;
                 }
 
-                // 3. ARMAMOS EL SLIDE FINAL
-                const slideHtml = `
-                    <div class="hero-slide">
-                        ${htmlFondo}
-                        <div class="hero-content">
-                            <h1><span id="titulo-hero-${index}"></span><span class="cursor-maquina">|</span></h1>
-                            <p>${slide.subtitulo}</p>
-                            <button class="btn-hero" onclick="${accionClick}">${textoDelBoton}</button>
-                        </div>
-                    </div>
-                `;
-                heroContainer.innerHTML += slideHtml;
+                // INYECTAMOS SOLO EL TEXTO Y EL BOTÓN EN EL HTML
+                const contentContainer = document.getElementById(`hero-content-${index}`);
+                if (contentContainer) {
+                    contentContainer.innerHTML = `
+                        <h1><span id="titulo-hero-${index}"></span><span class="cursor-maquina">|</span></h1>
+                        <p>${slide.subtitulo}</p>
+                        <button class="btn-hero" onclick="${accionClick}">${textoDelBoton}</button>
+                    `;
+                }
 
-                // <- AQUÍ SE CREA UNA PELOTITA POR CADA SLIDE
                 dotsHtml += `<div class="hero-dot ${index === 0 ? 'active' : ''}" onclick="goToHeroSlide(${index})"></div>`;
             });
 
-            // <- INYECTAMOS LAS PELOTITAS EN EL HTML
             if (dotsContainer) dotsContainer.innerHTML = dotsHtml;
 
             if (totalHeroSlides > 1) {
@@ -247,10 +221,11 @@ fetch('site-config.json')
                 startHeroAutoplay(); 
             }
             
+            // ¡TU MÁQUINA DE ESCRIBIR ORIGINAL!
             escribirTextoRapido(`titulo-hero-0`, datosHeroGlobal[0].titulo);
         }
 
-        // --- B. RENDERIZAR LOS PROYECTOS ---
+        // --- B. RENDERIZAR LOS PROYECTOS (ESTO ES TU CÓDIGO INTACTO) ---
         const proyectosTrack = document.getElementById('proyectos-track-dynamic');
         const proyectosData = data.proyectos;
 
@@ -283,19 +258,32 @@ fetch('site-config.json')
 
 
 // ==========================================
-// 6. MOTOR DEL HERO BANNER (MOVIMIENTO DE VIDEOS)
+// 6. MOTOR DEL HERO BANNER (MOVIMIENTO DE VIDEOS) - INTACTO
 // ==========================================
 function updateHeroSlider() {
     const container = document.getElementById('hero-slider-container');
     if (!container) return;
     
-    // Mueve el contenedor grande hacia la izquierda
+    // Mueve el contenedor (Tu tren horizontal)
     container.style.transform = `translateX(-${currentHeroIndex * 100}%)`;
     
-    // Dispara la máquina de escribir para el nuevo slide activo
+    // Activa la máquina de escribir
     escribirTextoRapido(`titulo-hero-${currentHeroIndex}`, datosHeroGlobal[currentHeroIndex].titulo);
 
-    // Actualiza qué pelotita está roja y cuáles transparentes
+    // --- EL PARCHE MÁGICO PARA LOS VIDEOS ---
+    // Buscamos todos los videos del slider
+    const todosLosVideos = document.querySelectorAll('.hero-slide video');
+    todosLosVideos.forEach((video, index) => {
+        if (index === currentHeroIndex) {
+            // Si es el video que la gente está viendo ahora, dale Play
+            video.play().catch(() => {});
+        } else {
+            // Opcional: Pausa los videos que no se están viendo para ahorrar procesador
+            video.pause();
+        }
+    });
+    // ----------------------------------------
+
     const dots = document.querySelectorAll('.hero-dot');
     dots.forEach((dot, index) => {
         if (index === currentHeroIndex) {
@@ -318,7 +306,6 @@ function prevHeroSlide() {
     resetHeroAutoplay();
 }
 
-// <- AQUÍ ESTÁ LA FUNCIÓN FALTANTE PARA SALTAR AL TOCAR LA PELOTITA
 function goToHeroSlide(index) {
     currentHeroIndex = index;
     updateHeroSlider();
@@ -327,10 +314,7 @@ function goToHeroSlide(index) {
 
 function startHeroAutoplay() {
     clearInterval(heroInterval);
-
     if (isHeroPaused) return;
-
-    // Cambia de banner cada 10 segundos (10000ms)
     heroInterval = setInterval(nextHeroSlide, 10000);
 }
 
@@ -340,7 +324,7 @@ function resetHeroAutoplay() {
 
 function toggleHeroState() {
     const iconoPausa = document.getElementById('icono-hero-playpause');
-    const heroVideos = document.querySelectorAll('.hero-slide .video-background');
+    const heroVideos = document.querySelectorAll('.video-background'); 
 
     if (!iconoPausa) return;
 
@@ -369,44 +353,46 @@ function toggleHeroState() {
 }
 
 // ==========================================
-// SWIPE (ARRASTRE) PARA EL HERO BANNER
+// SWIPE (ARRASTRE) PARA EL HERO BANNER - REPARADO
 // ==========================================
 let heroStartX = 0;
 let heroEndX = 0;
 const heroSection = document.getElementById('inicio');
 
-// 1. Eventos para Celular (Touch)
-heroSection.addEventListener('touchstart', e => {
-    heroStartX = e.changedTouches[0].screenX;
-}, { passive: true }); // El passive:true le dice al navegador que NO bloquee el scroll vertical
+if (heroSection) {
+    // 1. Eventos para Celular (Touch) usando clientX (Inmune a bloqueos de capas)
+    heroSection.addEventListener('touchstart', e => {
+        heroStartX = e.touches[0].clientX;
+    }, { passive: true });
 
-heroSection.addEventListener('touchend', e => {
-    heroEndX = e.changedTouches[0].screenX;
-    procesarSwipeHero();
-}, { passive: true });
+    heroSection.addEventListener('touchend', e => {
+        heroEndX = e.changedTouches[0].clientX;
+        procesarSwipeHero();
+    }, { passive: true });
 
-// 2. Eventos para Mouse (PC)
-let mousePresionadoHero = false;
-heroSection.addEventListener('mousedown', e => {
-    heroStartX = e.screenX;
-    mousePresionadoHero = true;
-});
-heroSection.addEventListener('mouseup', e => {
-    if (!mousePresionadoHero) return;
-    heroEndX = e.screenX;
-    mousePresionadoHero = false;
-    procesarSwipeHero();
-});
-heroSection.addEventListener('mouseleave', () => mousePresionadoHero = false);
+    // 2. Eventos para Mouse (PC) por consistencia
+    let mousePresionadoHero = false;
+    heroSection.addEventListener('mousedown', e => {
+        heroStartX = e.clientX;
+        mousePresionadoHero = true;
+    });
+    heroSection.addEventListener('mouseup', e => {
+        if (!mousePresionadoHero) return;
+        heroEndX = e.clientX;
+        mousePresionadoHero = false;
+        procesarSwipeHero();
+    });
+    heroSection.addEventListener('mouseleave', () => mousePresionadoHero = false);
+}
 
 // 3. Evaluamos si el movimiento fue suficiente para cambiar de slide
 function procesarSwipeHero() {
-    const umbral = 50; // Mínimo de píxeles que debe arrastrar para que cuente
+    const umbral = 60; // Píxeles mínimos que debe moverse el dedo
     if (heroEndX < heroStartX - umbral) {
-        nextHeroSlide(); // Deslizó hacia la izquierda
+        nextHeroSlide(); // Deslizó hacia la izquierda -> Siguiente
     }
     if (heroEndX > heroStartX + umbral) {
-        prevHeroSlide(); // Deslizó hacia la derecha
+        prevHeroSlide(); // Deslizó hacia la derecha -> Anterior
     }
 }
 
@@ -682,4 +668,38 @@ window.addEventListener('resize', () => {
         updateFeaturesDots();
         startFeaturesAutoplay();
     }
+});
+
+// ==========================================
+// 11. DESCARGA SECUENCIAL DE VIDEOS EN COLA
+// ==========================================
+window.addEventListener('DOMContentLoaded', () => {
+    // Atrapamos todos los videos que están dentro del slider
+    const videosHero = document.querySelectorAll('.hero-slide video');
+    
+    function encolarSiguienteVideo(index) {
+        // Si ya llegamos al último video, nos detenemos
+        if (index >= videosHero.length - 1) return;
+        
+        const videoActual = videosHero[index];
+        const siguienteVideo = videosHero[index + 1];
+        
+        // La orden para despertar al siguiente video
+        const activarSiguiente = () => {
+            siguienteVideo.preload = "auto";
+            // Pasamos al siguiente de la fila para repetir el proceso
+            encolarSiguienteVideo(index + 1);
+        };
+        
+        // Si el video actual ya se descargó antes de que la función se ejecute
+        if (videoActual.readyState >= 3) {
+            activarSiguiente();
+        } else {
+            // Si no, esperamos pacientemente a que esté listo para jugar (canplaythrough)
+            videoActual.addEventListener('canplaythrough', activarSiguiente, { once: true });
+        }
+    }
+    
+    // Arrancamos la fila con el primer video (el index 0)
+    encolarSiguienteVideo(0);
 });
