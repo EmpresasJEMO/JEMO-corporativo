@@ -38,7 +38,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </a>
         </div>
         <div class="nav-menu">
-            <a href="#inicio" class="nav-link">2Inicio</a>
+            <a href="#inicio" class="nav-link">Inicio</a>
             <a href="#nosotros" class="nav-link">Nosotros</a>
             <a href="#marcas" class="nav-link">Empresas</a>
             <a href="#contacto-directo" class="nav-link">Contacto</a>
@@ -54,50 +54,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </nav>
 
+    <!-- PANTALLA 1: INICIO CON VIDEO DE FONDO -->
 <section id="inicio" class="hero-banner">
-        <div id="hero-slider-container">
-            
-            <div class="hero-slide active">
-                <video autoplay loop muted playsinline preload="auto" poster="./assets/img/poster-hero.webp" class="video-background">
-                    <source src="./assets/videos/video-Hero.mp4" type="video/mp4">
-                </video>
-                <div class="hero-content" id="hero-content-0"></div>
-            </div>
-
-            <div class="hero-slide">
-                <video loop muted playsinline preload="none" poster="./assets/img/poster-hero-jemo.webp" class="video-background">
-                    <source src="./assets/videos/hero-jemo.mp4" type="video/mp4">
-                </video>
-                <div class="hero-content" id="hero-content-1"></div>
-            </div>
-
-            <div class="hero-slide">
-                <video loop muted playsinline preload="none" poster="./assets/img/poster-hero-ptj.webp" class="video-background">
-                    <source src="./assets/videos/hero-ptj.mp4" type="video/mp4">
-                </video>
-                <div class="hero-content" id="hero-content-2"></div>
-            </div>
-
-            <div class="hero-slide">
-                <video loop muted playsinline preload="none" poster="./assets/img/poster-hero-ppe.webp" class="video-background">
-                    <source src="./assets/videos/hero-ppe.mp4" type="video/mp4">
-                </video>
-                <div class="hero-content" id="hero-content-3"></div>
-            </div>
-
-        </div>
-        
-        <div class="hero-arrows" id="hero-arrows-wrapper" style="display: none;">
-            <button onclick="prevHeroSlide()"><span class="material-symbols-outlined">chevron_left</span></button>
-            <button onclick="nextHeroSlide()"><span class="material-symbols-outlined">chevron_right</span></button>
-        </div>
-        
-        <button id="btn-hero-playpause" class="btn-hero-playpause" onclick="toggleHeroState()" aria-label="Pausar animación">
-            <span class="material-symbols-outlined" id="icono-hero-playpause">pause</span>
-        </button>
-        
-        <div class="hero-dots" id="hero-dots-container"></div>
-    </section>
+    <div id="hero-slider-container"></div>
+    
+    <div class="hero-arrows" id="hero-arrows-wrapper" style="display: none;">
+        <button onclick="prevHeroSlide()"><span class="material-symbols-outlined">chevron_left</span></button>
+        <button onclick="nextHeroSlide()"><span class="material-symbols-outlined">chevron_right</span></button>
+    </div>
+    
+    <button id="btn-hero-playpause" class="btn-hero-playpause" onclick="toggleHeroState()" aria-label="Pausar animación">
+        <span class="material-symbols-outlined" id="icono-hero-playpause">pause</span>
+    </button>
+    
+    <div class="hero-dots" id="hero-dots-container"></div>
+</section>
 
     <!-- SECCIÓN NOSOTROS -->
         <div id="nosotros" class="about-jemo-top">
