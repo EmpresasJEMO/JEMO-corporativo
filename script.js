@@ -258,7 +258,7 @@ fetch('site-config.json')
 
 
 // ==========================================
-// 6. MOTOR DEL HERO BANNER (MOVIMIENTO DE VIDEOS) - INTACTO
+// 6. MOTOR DEL HERO BANNER (MOVIMIENTO DE VIDEOS) - ACTUALIZADO PARA iOS
 // ==========================================
 function updateHeroSlider() {
     const container = document.getElementById('hero-slider-container');
@@ -279,17 +279,35 @@ function updateHeroSlider() {
                 video.preload = 'auto';
                 video.load();
             }
-            // Si ya tiene datos suficientes, play directo
+            
+            // --- NUEVO BLOQUE ANTI-BLOQUEO DE APPLE ---
             if (video.readyState >= 2) {
-                video.play().catch(() => {});
+                let playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch((error) => {
+                        console.log("Autoplay bloqueado por iOS (Probablemente Ahorro de Batería):", error);
+                        clearInterval(heroInterval);
+                        isHeroPaused = true;
+                        document.getElementById('icono-hero-playpause').innerText = 'play_arrow';
+                    });
+                }
             } else {
-                // Esperar a que tenga al menos el primer frame
                 const onReady = () => {
-                    video.play().catch(() => {});
+                    let playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch((error) => {
+                            console.log("Autoplay bloqueado por iOS (Probablemente Ahorro de Batería):", error);
+                            clearInterval(heroInterval);
+                            isHeroPaused = true;
+                            document.getElementById('icono-hero-playpause').innerText = 'play_arrow';
+                        });
+                    }
                     video.removeEventListener('loadeddata', onReady);
                 };
                 video.addEventListener('loadeddata', onReady);
             }
+            // --- FIN DEL BLOQUE ANTI-BLOQUEO ---
+
         } else {
             video.pause();
         }
