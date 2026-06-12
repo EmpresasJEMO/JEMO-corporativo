@@ -191,6 +191,12 @@ body {
     pointer-events: none; /* <--- ESTA ES LA LÍNEA MÁGICA */
 }
 
+/* Ocultar el botón de play nativo de iOS cuando bloquea el autoplay */
+video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+}
+
 .hero-banner::after { display: none; }
 
 .hero-slide::after {
