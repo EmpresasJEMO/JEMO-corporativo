@@ -270,19 +270,31 @@ function updateHeroSlider() {
     // Activa la máquina de escribir
     escribirTextoRapido(`titulo-hero-${currentHeroIndex}`, datosHeroGlobal[currentHeroIndex].titulo);
 
-    // --- EL PARCHE MÁGICO PARA LOS VIDEOS ---
-    // Buscamos todos los videos del slider
+    // --- MANEJO DE VIDEOS PARA MÓVIL ---
     const todosLosVideos = document.querySelectorAll('.hero-slide video');
     todosLosVideos.forEach((video, index) => {
         if (index === currentHeroIndex) {
-            // Si es el video que la gente está viendo ahora, dale Play
-            video.play().catch(() => {});
+            // Forzar carga si aún no ha empezado
+            if (video.preload !== 'auto') {
+                video.preload = 'auto';
+                video.load();
+            }
+            // Si ya tiene datos suficientes, play directo
+            if (video.readyState >= 2) {
+                video.play().catch(() => {});
+            } else {
+                // Esperar a que tenga al menos el primer frame
+                const onReady = () => {
+                    video.play().catch(() => {});
+                    video.removeEventListener('loadeddata', onReady);
+                };
+                video.addEventListener('loadeddata', onReady);
+            }
         } else {
-            // Opcional: Pausa los videos que no se están viendo para ahorrar procesador
             video.pause();
         }
     });
-    // ----------------------------------------
+    // ------------------------------------
 
     const dots = document.querySelectorAll('.hero-dot');
     dots.forEach((dot, index) => {
@@ -687,16 +699,17 @@ window.addEventListener('DOMContentLoaded', () => {
         // La orden para despertar al siguiente video
         const activarSiguiente = () => {
             siguienteVideo.preload = "auto";
+            siguienteVideo.load();
             // Pasamos al siguiente de la fila para repetir el proceso
             encolarSiguienteVideo(index + 1);
         };
         
-        // Si el video actual ya se descargó antes de que la función se ejecute
-        if (videoActual.readyState >= 3) {
+        // Si el video actual ya tiene al menos el primer frame, avanzamos
+        if (videoActual.readyState >= 2) {
             activarSiguiente();
         } else {
             // Si no, esperamos pacientemente a que esté listo para jugar (canplaythrough)
-            videoActual.addEventListener('canplaythrough', activarSiguiente, { once: true });
+            videoActual.addEventListener('canplay', activarSiguiente, { once: true });
         }
     }
     
