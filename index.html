@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MQXG6FN3');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEMO | Corporativo</title>
+    <!-- Google Fonts & Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Jost:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQXG6FN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <!-- INDICADOR VISUAL PARA LA NAVBAR OCULTA -->
+    <div class="nav-indicator">
+        <span class="material-symbols-outlined">expand_more</span>
+    </div>
+
+    <!-- NAVBAR FIJA INTELIGENTE -->
+    <nav class="main-nav" id="main-nav">
+        <div class="nav-logo">
+           <a href="#inicio">
+              <img src="assets/img/logo-jemo.webp" alt="JEMO Logo" class="logo-small" width="120" height="30">
+            </a>
+        </div>
+        <div class="nav-menu">
+            <a href="#inicio" class="nav-link">Inicio</a>
+            <a href="#nosotros" class="nav-link">Nosotros</a>
+            <a href="#marcas" class="nav-link">Empresas</a>
+            <a href="#contacto-directo" class="nav-link">Contacto</a>
+        </div>
+        <div class="nav-empresas">
+            <a href="https://ptj.cl" target="_blank" class="nav-brand-link" title="Visitar PTJ">
+                <img src="assets/img/logo-ptj-color.webp" alt="PTJ" class="nav-brand-logo">
+            </a>
+            <a href="https://ppe.cl" target="_blank" class="nav-brand-link" title="Visitar PPE">
+                <img src="assets/img/logo-ppe-color.webp" alt="PPE" class="nav-brand-logo">
+            </a>
+        </div>
+        </div>
+    </nav>
+
+    <!-- PANTALLA 1: INICIO CON VIDEO DE FONDO -->
+    <section id="inicio" class="hero-banner">
+        <div id="hero-slider-container"></div>
+        
+        <div class="hero-arrows" id="hero-arrows-wrapper" style="display: none;">
+            <button onclick="prevHeroSlide()"><span class="material-symbols-outlined">chevron_left</span></button>
+            <button onclick="nextHeroSlide()"><span class="material-symbols-outlined">chevron_right</span></button>
+        </div>
+        
+        <button id="btn-hero-playpause" class="btn-hero-playpause" onclick="toggleHeroState()" aria-label="Pausar animación">
+            <span class="material-symbols-outlined" id="icono-hero-playpause">pause</span>
+        </button>
+        
+        <div class="hero-dots" id="hero-dots-container"></div>
+    </section>
+
+    <!-- SECCIÓN NOSOTROS -->
+        <div id="nosotros" class="about-jemo-top">
+            <div class="about-text">
+                <h2><span class="titulo-rojo">Grupo JEMO:</span> Quiénes somos y cómo nos proyectamos</h2>
+                <p id="texto-nosotros" class="texto-colapsado" onclick="toggleTextoNosotros('texto')">
+                    Con más de 85 años entregando soluciones de calidad, seriedad y compromiso, empresas JEMO se ha consolidado como uno de los referentes pioneros, técnico y confiable en Chile y Latinoamérica, aportando innovación en el diseño y fabricación de estructuras de acero y aluminio para proyectos de alumbrado público funcional, decorativo y de grandes alturas, seguridad vial, telecomunicaciones, transmisión y distribución eléctrica. Además contamos con alianzas con marcas internacionales que nos ha permitido ser líderes en tecnología industrial, ofreciendo productos de la más alta calidad para proteger personas, equipos y estructuras. Nuestro portafolio abarca desde sistemas de puesta a tierra, protección contra sobretensiones y rayos, hasta soluciones de fijación y conectores mecánicos, garantizando confiabilidad, seguridad y excelencia en cada proyecto. 
+                </p>
+                <button id="btn-leer-mas" class="btn-leer-mas-tab" onclick="toggleTextoNosotros('boton')" aria-label="Expandir texto">
+                    <span class="material-symbols-outlined" id="icono-leer-mas">expand_more</span>
+                </button>
+                        <div class="features-carousel-mobile" id="mobile-features-wrapper">
+                    <button class="btn-lateral-features prev" onclick="scrollFeatures(-1)" aria-label="Anterior">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+
+                    <div class="about-features" id="features-track">
+                        <div class="feature-card">
+                            <span class="material-symbols-outlined">handshake</span>
+                            <div class="feature-info">
+                                <h4>Alianzas Estratégicas</h4>
+                                <p>Importamos productos líderes de alta ingeniería a nivel mundial.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <span class="material-symbols-outlined">precision_manufacturing</span>
+                            <div class="feature-info"><h4>Fabricación Nacional</h4><p>Hecho en Chile con altos estándares.</p></div>
+                        </div>
+                        <div class="feature-card">
+                            <span class="material-symbols-outlined">engineering</span>
+                            <div class="feature-info"><h4>Especialización</h4><p>Ingeniería de detalle a medida.</p></div>
+                        </div>
+                        <div class="feature-card">
+                            <span class="material-symbols-outlined">verified</span>
+                            <div class="feature-info"><h4>Certificación</h4><p>Seguridad y calidad garantizada.</p></div>
+                        </div>
+                    </div>
+
+                    <button class="btn-lateral-features next" onclick="scrollFeatures(1)" aria-label="Siguiente">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+
+                    <div class="features-dots-container" id="features-dots"></div>
+                </div>
+            </div>
+            
+        <div id="video-corporativo" class="about-media">
+                <a href="https://youtu.be/hL-im2gJMng" target="_blank" class="video-preview-link" title="Ver video corporativo completo">
+                    
+                    <video autoplay loop muted playsinline class="video-preview">
+                        <source src="./assets/videos/Video-Nosotros.mp4" type="video/mp4">
+                    </video>
+                    
+                    <div class="play-overlay">
+                        <svg class="yt-logo" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.582 6.186a2.506 2.506 0 0 0-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418a2.506 2.506 0 0 0-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814a2.506 2.506 0 0 0 1.768 1.768C5.746 20 12 20 12 20s6.254 0 7.814-.418a2.506 2.506 0 0 0 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM9.6 15.4V8.6l6.4 3.4-6.4 3.4z"/>
+                        </svg>
+                    </div>
+                    
+                </a>
+            </div>
+        </div>
+
+        <!-- SECCIÓN IMPACTO INTEGRADA (Sin línea divisoria) -->
+        <div class="impacto-bottom">
+            <div class="stats-section">
+                <div class="stat-box stat-clickable" onclick="document.getElementById('nosotros').scrollIntoView({behavior: 'smooth', block: 'start'})" title="Volver a la reseña">
+                    <h3 class="counter" data-target="85">0</h3>
+                    <p>Años de Trayectoria</p>
+                </div>
+                <div class="stat-box stat-clickable" onclick="document.getElementById('marcas').scrollIntoView({ behavior: 'smooth', block: 'start' })" title="Ir a Empresas">
+                    <h3 class="counter" data-target="10">0</h3>
+                    <p>Líneas de Productos</p>
+                </div>
+                <div class="stat-box stat-clickable" onclick="document.getElementById('marcas').scrollIntoView({ behavior: 'smooth', block: 'start' })" title="Ir a Empresas">
+                    <h3 class="counter" data-target="2">0</h3>
+                    <p>Empresas Especialistas</p>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- MINI CARRUSEL MANUAL DE MARCAS ALIADAS (Sin movimiento automático) -->
+        <div class="marcas-manual-container">
+            <button class="btn-marcas-arrow" onclick="desplazarMarcas(-1)" aria-label="Anterior marca">
+                <span class="material-symbols-outlined">arrow_back_ios</span>
+            </button>
+            <div class="marcas-manual-track" id="marcas-track">
+                <!-- Reemplaza estos textos por etiquetas <img> con los logos reales -->
+                <!-- Reemplaza los textos por las etiquetas de imagen -->
+                <div class="marca-item">
+                    <img src="./assets/img/logo-nvent.webp" alt="nVent" class="marca-logo">
+                </div>
+                <div class="marca-item">
+                    <img src="./assets/img/logo-plp.webp" alt="plp" class="marca-logo">
+                </div>
+                <div class="marca-item">
+                    <img src="./assets/img/logo-unistrut.webp" alt="unistrut" class="marca-logo">
+                </div>
+                <div class="marca-item">
+                    <img src="./assets/img/logo-eae.webp" alt="eae" class="marca-logo">
+                </div>
+                <div class="marca-item">
+                    <img src="./assets/img/logo-photinus.webp" alt="photinus" class="marca-logo">
+                </div>
+                <div class="marca-item">
+                    <img src="./assets/img/logo-bluesmart.webp" alt="bluesmart" class="marca-logo">
+                </div>
+                <div class="marca-item">
+                    <img src="./assets/img/logo-azz.webp" alt="azz calbert" class="marca-logo">
+                </div>
+                <div class="marca-item">
+                    <img src="./assets/img/logo-rosa.webp" alt="ROSA" class="marca-logo">
+                </div>
+            </div>
+            <button class="btn-marcas-arrow" onclick="desplazarMarcas(1)" aria-label="Siguiente marca">
+                <span class="material-symbols-outlined">arrow_forward_ios</span>
+            </button>
+        </div>
+
+    </section>
+
+        <!-- PANTALLA 3: PROYECTOS -->
+    <section id="proyectos" class="proyectos-compact-section">
+        <h2 class="proyectos-title">Proyectos Destacados</h2>
+        
+        <div class="carousel-compact-container">
+            
+            <div style="position: relative;">
+                
+                <button class="btn-lateral-proyectos prev" onclick="prevSlide()" aria-label="Anterior">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button class="btn-lateral-proyectos next" onclick="nextSlide()" aria-label="Siguiente">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+
+                <div class="carousel-track-compact" id="proyectos-track-dynamic">
+                    </div>
+
+            </div> <div class="carousel-pagination-centered">
+                <button class="btn-pag-arrow" onclick="prevSlide()" aria-label="Anterior">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <div class="pag-track">
+                    <div class="pag-thumb" id="pag-thumb"></div>
+                </div>
+                <button class="btn-pag-arrow" onclick="nextSlide()" aria-label="Siguiente">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PANTALLA 4: SELECTOR DE EMPRESA CON ENCABEZADO -->
+    <section id="marcas" class="seccion-Empresas-wrapper">
+        
+        <!-- Franja blanca con título superior -->
+        <div class="Empresas-header">
+            <h2>Nuestras Empresas</h2>
+            <p>Selecciona una de nuestras empresas para conocer soluciones específicas</p>
+        </div>
+
+        <!-- Contenedor de las mitades (Ahora vive debajo del título) -->
+        <div class="split-container">
+            <a href="https://ptj.cl" target="_blank" class="split ptj split-cliqueable">
+                <div class="back-img"></div> 
+                <div class="content">
+                    <img src="assets/img/logo-ptj.webp" alt="PTJ" class="brand-img">
+                    <span class="btn-minimal">VISITA PTJ.CL</span>
+                </div>
+            </a>
+
+            <a href="https://ppe.cl" target="_blank" class="split ppe split-cliqueable">
+                <div class="back-img"></div> 
+                <div class="content">
+                    <img src="assets/img/logo-ppe.webp" alt="PPE" class="brand-img">
+                    <span class="btn-minimal">VISITA PPE.CL</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <hr class="separador-espacio">
+
+    <!-- PANTALLA 5: FORMULARIO ENMARCADO Y CENTRADO -->
+    <section id="contacto-directo" class="bg-contacto-enmarcado">
+        <div class="tarjeta-formulario-blanca">
+            <h2>Contáctanos</h2>
+            <p>Escríbenos directamente y un especialista atenderá tus requerimientos.</p>
+            <div class="pipedriveWebForms" data-pd-webforms="https://webforms.pipedrive.com/f/1E115kHPm4R6aqAJhSenkWHhXxK4CZd6i2rGqPKIKc6HUkVrahHbnHe1aejBm6FuX">
+                <script src="https://webforms.pipedrive.com/f/loader"></script>
+            </div>
+        </div>
+    </section>
+
+     <hr class="separador-espacio">
+
+    <!-- PANTALLA 6: FOOTER -->
+    <footer class="footer">
+        <div class="footer-wrapper">
+            <div class="footer-top">
+                <div class="footer-col info-col">
+                    <img src="assets/img/logo-jemo.webp" alt="JEMO" class="logo-footer">
+                    
+                    <a href="https://maps.google.com/?q=Av.+Presidente+Eduardo+Frei+Montalva+3525,Conchalí,Santiago,Chile" target="_blank" class="contact-link location-link">
+                        Av. Presidente Eduardo Frei Montalva 3525,<br>Conchalí, Santiago, Chile.
+                    </a>
+                    
+                    <a href="tel:+56224215100" class="contact-link">
+                        +56 2 2421 5100
+                    </a>
+                    
+                    <a href="mailto:comunicaciones@jemo.cl" class="contact-link">
+                        comunicaciones@jemo.cl
+                    </a>
+
+
+                </div>
+                
+                <div class="footer-col">
+                    <h4>PTJ</h4>
+                    <a href="https://ptj.cl/blogs/realizaciones" target="_blank" class="contact-link">Proyectos PTJ</a>
+                    <a href="https://ptj.cl/blogs/zona-de-conocimientos" target="_blank" class="contact-link">Zona de Conocimiento</a>
+                    <a href="https://ptj.cl/pages/contacto" target="_blank" class="contact-link">Contactar Ejecutivo</a>
+                    <div class="socials-mini">
+                        <a href="https://cl.linkedin.com/company/ptjchile" target="_blank">LinkedIn</a> | 
+                        <a href="https://www.instagram.com/ptj.cl/" target="_blank">Instagram</a> | 
+                        <a href="https://www.youtube.com/@ptj-cl" target="_blank">Youtube</a> | 
+                        <a href="https://www.facebook.com/postesytorresjemo/" target="_blank">Facebook</a> 
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>PPE</h4>
+                    <a href="https://ppe.cl/blogs/proyectos" target="_blank" class="contact-link">Proyectos PPE</a>
+                    <a href="https://ppe.cl/blogs/zona-de-conocimientos" target="_blank" class="contact-link">Zona de Conocimiento</a>
+                    <a href="https://ppe.cl/pages/contacto" target="_blank" class="contact-link">Contactar Ejecutivo</a>
+                    <div class="socials-mini">
+                        <a href="https://www.linkedin.com/company/ppecomercial" target="_blank">LinkedIn</a> | 
+                        <a href="https://www.instagram.com/ppe.cl" target="_blank">Instagram</a> | 
+                        <a href="https://www.youtube.com/@ppechile" target="_blank">Youtube</a> | 
+                        <a href="https://www.facebook.com/ppecomercial" target="_blank">Facebook</a> 
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© <span id="year-jemo"></span> JEMO. Todos los derechos reservados.</p>
+                
+                <button class="btn-volver-arriba" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <span class="material-symbols-outlined">arrow_upward</span> Volver Arriba
+                </button>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

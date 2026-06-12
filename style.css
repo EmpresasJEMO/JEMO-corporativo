@@ -1,0 +1,873 @@
+﻿/* =========================================
+   1. VARIABLES Y CONFIGURACIÓN GLOBAL
+   ========================================= */
+:root {
+    --color-ptj: #004a99;
+    --color-ppe: #f32735; 
+    --white: #ffffff;
+    --light-gray: #f9f9f9;
+    --text-dark: #111111;
+    --text-gray: #666666;
+    --padding-lateral: 12%; 
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity; 
+}
+
+html::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--white);
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+body {
+    display: block; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.separador-espacio {
+    border: none;
+    margin: 60px 0; 
+}
+
+/* Estándar Unificado de Flechas Simples (Marcas y Proyectos) */
+.btn-pag-arrow,
+.btn-marcas-arrow {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: var(--text-dark); 
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease; 
+}
+
+@media (hover: hover) {
+    .btn-pag-arrow:hover,
+    .btn-marcas-arrow:hover {
+        color: var(--color-ppe) !important; 
+        transform: scale(1.1); 
+    }
+}
+
+.btn-pag-arrow span,
+.btn-marcas-arrow span {
+    font-size: 1.5rem; 
+    color: inherit; 
+}
+
+/* =========================================
+   2. NAVBAR Y NAVEGACIÓN
+   ========================================= */
+.nav-indicator {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99;
+    background: var(--white);
+    padding: 2px 20px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-indicator span {
+    font-size: 1.2rem;
+    color: var(--color-ppe);
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px var(--padding-lateral);
+    background: var(--white);
+    position: fixed; 
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transform: translateY(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.main-nav.nav-visible { transform: translateY(0); }
+.nav-logo { display: flex; align-items: center; }
+.logo-small { height: 30px; transition: transform 0.3s ease; }
+
+@media (hover: hover) {
+    .logo-small:hover { transform: scale(1.05); }
+}
+
+.nav-menu { display: flex; gap: 35px; }
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600; 
+    font-size: 0.75rem; 
+    text-transform: uppercase;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+    background-color: var(--text-dark); 
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@media (hover: hover) {
+    .nav-link:hover::after { transform: scaleX(1); }
+}
+
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-empresas { display: flex; gap: 20px; align-items: center; }
+.nav-brand-link { display: block; text-decoration: none; }
+
+.nav-brand-logo {
+    width: 85px; height: 35px; object-fit: contain;
+    filter: grayscale(100%); opacity: 0.7;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease, opacity 0.3s ease;
+}
+
+@media (hover: hover) {
+    .nav-brand-link:hover .nav-brand-logo { 
+        filter: grayscale(0%); opacity: 1; transform: scale(1.15); 
+    }
+}
+
+/* =========================================
+   3. HERO BANNER
+   ========================================= */
+.hero-banner {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row; 
+    align-items: flex-end; 
+    justify-content: flex-start; 
+    padding-left: var(--padding-lateral);
+    padding-right: var(--padding-lateral);
+    padding-bottom: 80px;
+    background: #000;
+}
+
+.video-background {
+    position: absolute;
+    top: 0; left: 0; width: 100% !important; height: 100% !important;
+    object-fit: cover; z-index: 1;
+}
+
+.hero-banner::after { display: none; }
+
+.hero-slide::after {
+    content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); z-index: 2;
+}
+
+.hero-slide .hero-content { position: relative; z-index: 3; }
+
+#hero-slider-container {
+    position: absolute; inset: 0; display: flex; width: 100%; height: 100%;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-slide {
+    flex: 0 0 100%; width: 100%; height: 100%; position: relative; display: flex;
+    align-items: flex-end; padding: 0 var(--padding-lateral) 80px var(--padding-lateral);
+}
+
+.hero-content {
+    position: relative; z-index: 3; text-align: left !important; margin: 0; padding: 0; max-width: 550px; 
+}
+
+.hero-content h1 {
+    font-size: 2.6rem; color: var(--white); margin-top: 0; margin-bottom: 12px; line-height: 1.15; font-weight: 700;
+}
+
+.hero-content p {
+    font-size: 1rem; color:var(--white); margin: 0; line-height: 1.6; font-weight: 300;
+}
+
+.btn-hero {
+    margin-top: 25px; background: transparent; color: var(--white); border: 1px solid var(--white);
+    padding: 12px 35px; font-size: 0.75rem; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif; display: block;
+}
+
+@media (hover: hover) {
+    .btn-hero:hover { background: var(--white); color: var(--text-dark); }
+}
+
+.hero-arrows { position: absolute; bottom: 80px; right: var(--padding-lateral); z-index: 10; display: flex; gap: 15px; }
+.hero-arrows button {
+    background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: var(--white);
+    width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; transition: all 0.3s ease;
+}
+
+@media (hover: hover) {
+    .hero-arrows button:hover { background: var(--white); color: var(--text-dark); }
+}
+
+.btn-hero-playpause {
+    position: absolute;
+    bottom: 80px; 
+    right: calc(var(--padding-lateral) + 115px); 
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--white);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.btn-hero-playpause span {
+    display: inline-block;
+}
+
+@media (hover: hover) {
+    .btn-hero-playpause:hover {
+        background: var(--white);
+        color: var(--text-dark);
+    }
+}
+
+/* =========================================
+   ANIMACIÓN DE GIRO PARA EL BOTÓN PLAY/PAUSE
+   ========================================= */
+.giro-animado {
+    animation: girarCambiar 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+@keyframes girarCambiar {
+    0% { transform: rotate(0deg) scale(1); opacity: 1; }
+    50% { transform: rotate(180deg) scale(0.2); opacity: 0; }
+    100% { transform: rotate(360deg) scale(1); opacity: 1; }
+}
+
+.cursor-maquina { font-weight: 300; color: var(--white); animation: parpadeoCursor 0.8s infinite; }
+@keyframes parpadeoCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.hero-dots {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10;
+}
+.hero-dot {
+    width: 12px; height: 12px; border-radius: 100%; background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer; transition: all 0.3s ease;
+}
+
+@media (hover: hover) {
+    .hero-dot:hover { background-color: rgba(255, 255, 255, 0.8); }
+}
+.hero-dot.active { background-color: var(--white); transform: scale(1.3); }
+
+/* =========================================
+   4. SECCIÓN NOSOTROS (PC)
+   ========================================= */
+.about-jemo-top {
+    padding: 80px var(--padding-lateral) 60px var(--padding-lateral);
+    display: flex; flex-direction: column; align-items: center; gap: 40px;
+}
+
+.about-text { width: 100%; }
+.about-text h2 { 
+    font-size: 2rem; color: var(--text-dark); margin-bottom: 20px; font-weight: 300; 
+    position: relative; display: inline-block; 
+}
+.about-text h2 .titulo-rojo { color: var(--color-ppe); font-weight: 500; }
+.about-text h2::after {
+    content: ''; position: absolute; bottom: -8px; left: 0; width: 100%; height: 2px;
+    background-color: var(--color-ppe); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+}
+
+@media (hover: hover) {
+    .about-text h2:hover::after { transform: scaleX(1); }
+}
+
+.about-text p { 
+    font-size: 1rem; line-height: 1.8; color: var(--text-dark); font-weight: 300; text-align: justify; 
+}
+
+/* =========================================
+   ENLACE INLINE "NUESTRA HISTORIA" (EFECTO SUBRAYADO INFALIBLE)
+   ========================================= */
+.enlace-historia-inline {
+    color: var(--color-ppe) !important;
+    text-decoration: none !important;
+    font-weight: 500;
+    
+    /* El truco del subrayado moderno: Un fondo de color rojo */
+    background-image: linear-gradient(var(--color-ppe), var(--color-ppe));
+    background-position: 0% 100%; /* Se ancla abajo a la izquierda */
+    background-repeat: no-repeat;
+    background-size: 0% 1px; /* Ancho 0% (invisible), Alto 2px (grosor de la línea) */
+    
+    /* Le decimos que anime el crecimiento del fondo */
+    transition: background-size 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s ease;
+}
+
+/* Efecto al pasar el mouse (Dibuja la línea de izquierda a derecha) */
+@media (hover: hover) {
+    .enlace-historia-inline:hover {
+        background-size: 100% 1px; /* El fondo crece hasta ocupar el 100% del ancho */
+        color: #d11f2a !important; /* Rojo un poquito más oscuro */
+    }
+}
+
+/* Efecto al tocar con el dedo en celular */
+.enlace-historia-inline:active {
+    background-color: rgba(243, 39, 53, 0.1) !important; /* Destello rojizo sutil */
+    border-radius: 2px;
+}
+
+.btn-leer-mas-tab { display: none; }
+
+.features-carousel-mobile { width: 100%; overflow: hidden; margin-top: 40px; }
+
+/* Ocultar controles del carrusel móvil en la Computadora */
+.btn-lateral-features,
+.features-dots-container {
+    display: none;
+}
+
+.about-features {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.feature-card {
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px;
+    background: var(--white); padding: 30px 20px; transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (hover: hover) {
+    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+}
+
+.feature-card span.material-symbols-outlined { font-size: 2.5rem; color: var(--color-ppe); }
+.feature-info h4 { font-size: 0.95rem; color: var(--text-dark); margin-bottom: 8px; font-weight: 700; }
+.feature-info p { font-size: 0.75rem; color: var(--text-gray); line-height: 1.5; margin: 0; text-align: center; font-weight: 400; }
+
+.about-media { width: 100%; }
+.video-preview-link {
+    display: block; position: relative; width: 100%; border-radius: 3px; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;
+    line-height: 0; 
+}
+.video-preview { width: 100%; display: block; aspect-ratio: 35 / 9; object-fit: cover; }
+.play-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); 
+    display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;
+}
+.yt-logo { width: 80px; height: auto; opacity: 0.85; transition: transform 0.3s ease, opacity 0.3s; }
+
+@media (hover: hover) {
+    .video-preview-link:hover .play-overlay { background: rgba(0, 0, 0, 0.1); }
+    .video-preview-link:hover .yt-logo { transform: scale(1.15); opacity: 1; }
+}
+
+/* =========================================
+   5. IMPACTO (CONTADORES)
+   ========================================= */
+.impacto-bottom { width: 100%; margin-bottom: 50px; }
+.stats-section { display: flex; justify-content: space-between; gap: 30px; padding: 0 var(--padding-lateral); text-align: center; margin-bottom: 40px; }
+.stat-box { flex: 1; background: var(--white); padding: 30px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); transition: transform 0.3s ease; }
+.stat-box.static-box { cursor: default; }
+.stat-box.stat-clickable { cursor: pointer; }
+
+@media (hover: hover) {
+    .stat-box.stat-clickable:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+}
+.stat-box p { font-size: 0.8rem; font-weight: 600; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* =========================================
+   6. MINI CARRUSEL MANUAL DE MARCAS
+   ========================================= */
+.marcas-manual-container {
+    padding: 30px var(--padding-lateral); background: var(--white); border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.marcas-manual-track {
+    display: flex; gap: 100px; overflow-x: auto; scroll-behavior: smooth; width: 100%; padding: 15px 20px; 
+    scrollbar-width: none; -webkit-overflow-scrolling: touch; 
+}
+.marcas-manual-track::-webkit-scrollbar { display: none; }
+.marca-item {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; color: var(--text-gray); text-transform: uppercase; 
+    white-space: nowrap; transition: color 0.3s; flex-shrink: 0; display: flex; align-items: center;
+}
+
+@media (hover: hover) {
+    .marca-item:hover { color: var(--text-dark); }
+}
+
+.marca-logo { max-height: 40px; max-width: 120px; width: auto; display: block; transition: transform 0.3s ease; }
+
+@media (hover: hover) {
+    .marca-logo:hover { transform: scale(1.2); }
+}
+
+/* =========================================
+   7. PROYECTOS COMPACTOS
+   ========================================= */
+.proyectos-compact-section { padding: 80px var(--padding-lateral); background-color: transparent; scroll-snap-align: start; position: relative; overflow: hidden; }
+.proyectos-title { font-size: 2rem; color: var(--text-dark); margin-bottom: 40px; text-align: left; }
+.carousel-track-compact { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 35px; scrollbar-width: none; -webkit-overflow-scrolling: touch;}
+.carousel-track-compact::-webkit-scrollbar { display: none; }
+
+.carousel-card { flex: 0 0 380px; display: flex; flex-direction: column; background: var(--white); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; text-decoration: none; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; }
+
+@media (hover: hover) {
+    .carousel-card:hover { transform: translateY(-12px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+}
+
+.card-img { width: 100%; aspect-ratio: 16 / 10; background-size: cover; background-position: center; }
+.card-logo-overlay { position: absolute; top: 15px; right: 15px; height: 25px; width: auto; z-index: 2; opacity: 0.9; filter: brightness(0) invert(1) drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); }
+.card-info { background: var(--white); padding: 20px; text-align: left; }
+.card-cat { font-size: 0.7rem; color: #4c4c4c; font-weight: 400; display: block; margin-bottom: 5px; }
+.card-info h4 { font-size: 1.2rem; color: var(--text-dark); font-weight: 500; }
+
+.carousel-pagination-centered { display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 30px; gap: 15px; }
+.btn-lateral-proyectos { position: absolute; top: calc(50% - 17px); transform: translateY(-50%); z-index: 10; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: var(--white); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; }
+.btn-lateral-proyectos.prev { left: 10px; }
+.btn-lateral-proyectos.next { right: 10px; }
+.btn-lateral-proyectos span { font-size: 2rem; color: inherit; }
+
+@media (hover: hover) {
+    .btn-lateral-proyectos:hover { background: var(--white); color: var(--text-dark); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+}
+
+.pag-track { width: 200px; height: 4px; background-color: #e0e0e0; border-radius: 4px; position: relative; overflow: hidden; }
+.pag-thumb { width: 40%; height: 100%; background: #555555; border-radius: 4px; position: absolute; left: 0; transition: left 0.1s linear; }
+
+/* =========================================
+   8. SELECTOR DE EMPRESAS (SPLIT SCREEN)
+   ========================================= */
+.seccion-Empresas-wrapper { width: 100%; min-height: 100vh; background-color: var(--white); display: flex; flex-direction: column; scroll-snap-align: start; scroll-snap-stop: always; }
+.Empresas-header { background-color: var(--white); padding: 60px var(--padding-lateral) 40px var(--padding-lateral); text-align: center; }
+.Empresas-header h2 { font-size: 2rem; color: var(--text-dark); font-weight: 500; margin-bottom: 10px; }
+.Empresas-header p { font-size: 0.9rem; color: #666; font-weight: 300; }
+.split-container { display: flex; width: 100%; flex: 1; flex-direction: row; background-color: var(--white); }
+.split { flex: 1; display: flex; align-items: center; justify-content: center; transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1); position: relative; overflow: hidden; min-height: 50vh; }
+.split-cliqueable { text-decoration: none; color: inherit; cursor: pointer; display: flex; }
+
+@media (hover: hover) {
+    .split-cliqueable:hover .btn-minimal { background-color: #e8e8e8; transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+}
+
+.ptj { background-color: var(--color-ptj); font-family: 'Montserrat', sans-serif; }
+.ppe { background-color: var(--color-ppe); font-family: 'Jost', sans-serif; }
+.back-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 0; opacity: 0.45; transition: all 0.8s ease; }
+.ptj .back-img { background-image: url('./assets/img/bg-ptj.webp'); }
+.ppe .back-img { background-image: url('./assets/img/bg-ppe.webp'); }
+.content { position: relative; z-index: 1; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.brand-img { width: 190px; margin-bottom: 30px; }
+
+@media (hover: hover) {
+    .split:hover { flex: 1.4; }
+    .split:hover .back-img { transform: scale(1.08); opacity: 1; }
+}
+
+.btn-minimal { display: inline-block; padding: 12px 35px; background-color: var(--white); color: var(--text-dark); text-decoration: none; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+/* =========================================
+   9. FORMULARIO PIPEDRIVE Y CONTACTO
+   ========================================= */
+.bg-contacto-enmarcado { width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center; background-image: #eaeaea; background-size: cover; background-position: center; background-attachment: fixed; padding: 60px var(--padding-lateral); }
+.tarjeta-formulario-blanca { background-color: var(--white); width: 100%; max-width: 550px; padding: 40px; border-radius: 8px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); text-align: center; }
+.tarjeta-formulario-blanca h2 { font-size: 1.8rem; color: var(--text-dark); margin-bottom: 8px; }
+.tarjeta-formulario-blanca p { font-size: 0.85rem; color: #666; margin-bottom: 25px; font-weight: 300; }
+.pipedriveWebForms { height: auto; overflow: visible; padding-right: 0; }
+
+/* =========================================
+   10. FOOTER DE LA PÁGINA
+   ========================================= */
+.footer { background-color: #1a1a1a; color: #e0e0e0; width: 100%; font-weight: 300; }
+.footer-wrapper { padding: 60px var(--padding-lateral) 30px var(--padding-lateral); width: 100%; }
+.footer-top { display: flex; justify-content: space-between; gap: 40px; border-bottom: 1px solid #333333; padding-bottom: 40px; margin-bottom: 25px; }
+.footer-col h4 { margin-bottom: 15px; font-size: 0.8rem; letter-spacing: 1px; color: #ffffff; font-weight: 600; text-transform: uppercase;}
+.footer-col.info-col { max-width: 280px; }
+.footer-col p { font-size: 0.75rem; line-height: 1.6; margin-top: 10px; color: #888;}
+.logo-footer { height: 35px; margin-bottom: 20px; }
+.contact-link { display: block; color: #aaaaaa; text-decoration: none; font-size: 0.75rem; margin-bottom: 12px; transition: color 0.3s; }
+.contact-link:hover { color: var(--white); }
+.location-link { text-decoration: underline; text-decoration-color: #444; line-height: 1.6;}
+.socials-mini { margin-top: 20px; font-size: 0.75rem; color: #555; }
+.socials-mini a { color: #aaaaaa; text-decoration: none; transition: color 0.3s; }
+.socials-mini a:hover { color: var(--white); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #666666; }
+.btn-volver-arriba { display: flex; align-items: center; gap: 8px; background: transparent; border: none; color: #888; font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: color 0.3s ease; }
+.btn-volver-arriba:hover { color: var(--white); }
+.btn-volver-arriba span { font-size: 1.1rem; }
+
+/* =========================================
+   11. SECCIÓN MAESTRA RESPONSIVA (MÓVIL)
+   ========================================= */
+@media (max-width: 900px) {
+    :root { --padding-lateral: 6%; }
+    
+    .nav-indicator { display: none !important; }
+    .nav-brand-logo { filter: grayscale(0%) !important; opacity: 1 !important; }
+    .nav-brand-link:hover .slide-wrapper-horizontal,
+    .nav-brand-link:active .slide-wrapper-horizontal { transform: translateX(0) !important; }
+    
+    .hero-content h1 { font-size: 2rem; }
+    .main-nav { padding: 10px 5%; height: 60px; }
+    .nav-logo logo-small { height: 25px; }
+    .nav-menu { display: none; }
+    .about-jemo-top, .stats-section { flex-direction: column; text-align: center; gap: 30px; }
+    .split-container { flex-direction: column; }
+    .split { padding: 60px 20px; }    
+    .footer-top { flex-direction: column; gap: 30px; text-align: left; }
+    .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+
+    /* Ajustes específicos de Nosotros y Video */
+    .about-jemo-top { gap: 15px !important; }
+    
+    #texto-nosotros {
+        position: relative; overflow: hidden;
+        transition: max-height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        margin-bottom: 0; padding-bottom: 25px; border-bottom: 1px solid #e2e8f0; 
+    }
+    .texto-colapsado { max-height: 230px; }
+    .texto-colapsado::after {
+        content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; 
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 90%); pointer-events: none; 
+    }
+    .texto-expandido { max-height: 1200px; }
+
+    .btn-leer-mas-tab {
+        display: flex; justify-content: center; align-items: center; background-color: var(--white);
+        border: 1px solid #e2e8f0; border-top: none; width: 54px; height: 26px; border-radius: 0 0 14px 14px; 
+        margin: -1px auto 40px auto; position: relative; z-index: 10; cursor: pointer; color: var(--color-ppe); 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05); transition: all 0.3s ease;
+    }
+    .btn-leer-mas-tab:active { background-color: #f8fafc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03); }
+    #icono-leer-mas { font-size: 1.6rem; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .flecha-arriba { transform: rotate(180deg); }
+
+    /* Carrusel de Atributos Móvil */
+    .features-carousel-mobile { position: relative; margin-top: 0px !important; margin-bottom: 60px !important; }
+    .about-features {
+        display: flex !important; 
+        flex-direction: row !important; 
+        gap: 20px; 
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    .about-features::-webkit-scrollbar { display: none; }
+    .feature-card { flex: 0 0 100%; scroll-snap-align: center; }
+
+    .btn-lateral-features {
+        display: flex; position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+        border: none !important; background: transparent !important; box-shadow: none !important; outline: none !important;
+        color: var(--text-dark) !important; width: 36px; height: 36px; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.2s ease;
+    }
+    .btn-lateral-features.prev { left: -5px; }
+    .btn-lateral-features.next { right: -5px; }
+
+    .features-dots-container { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 25px; padding: 5px 0; }
+    .f-dot { width: 8px; height: 8px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease; background-color: #e2e8f0 !important; border: none !important; outline: none !important; box-shadow: none !important; }
+    .f-dot.active { background-color: var(--color-ppe) !important; transform: scale(1.4); border: none !important; outline: none !important; }
+
+    /* Ajuste de Video y Proyectos en celular */
+    .video-preview { aspect-ratio: 4 / 3 !important; height: auto !important; }
+    .btn-lateral-proyectos { display: none; }
+    .carousel-card { flex: 0 0 calc((100% - 20px) / 2); }
+
+    /* Ajuste del botón de pausa en celular */
+    .btn-hero-playpause {
+        bottom: 84px !important; 
+        width: 36px;
+        height: 36px;
+    }
+    .btn-hero-playpause span {
+        font-size: 1.2rem;
+        display: inline-block; 
+    }
+
+    /* =========================================================================
+       --- COMPORTAMIENTO DE "PULSACIÓN TÁCTIL NATAL" (:active) ---
+       ========================================================================= */
+    
+    /* Efecto de hundimiento físico momentáneo al tocar con el dedo */
+    .btn-hero-playpause:active,
+    .btn-pag-arrow:active,
+    .btn-marcas-arrow:active,
+    .hero-arrows button:active {
+        background: transparent !important;
+        color: var(--color-ppe) !important; 
+        transform: scale(0.9) !important; 
+    }
+    
+    .btn-lateral-features:active {
+        background: transparent !important;
+        color: var(--color-ppe) !important;
+        transform: translateY(-50%) scale(0.9) !important;
+    }
+
+    .btn-hero:active,
+    .btn-minimal:active {
+        background-color: #e8e8e8 !important;
+        color: var(--text-dark) !important;
+        transform: scale(0.95) !important; 
+    }
+    
+    /* El dedo deforma levemente la tarjeta de atributos y de proyectos al tocarla */
+    .feature-card:active,
+    .carousel-card:active {
+        transform: scale(0.98) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+        transition: transform 0.1s ease !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .carousel-card { flex: 0 0 100%; }
+}
+
+/* =========================================
+   12. PANTALLAS GRANDES
+   ========================================= */
+@media (min-width: 1440px) { :root { --padding-lateral: 18%; } }
+@media (min-width: 1900px) { :root { --padding-lateral: 22%; } }
+
+/* =========================================================================
+   13. OPTIMIZACIÓN EXTREMA PARA PANTALLAS ULTRA PEQUEÑAS (MENOS DE 400px)
+   ========================================================================= */
+@media (max-width: 400px) {
+    .hero-arrows {
+        display: none !important;
+    }
+    
+    .btn-hero-playpause {
+        right: var(--padding-lateral) !important;
+        left: auto !important;
+        bottom: 88px !important; 
+    }
+}
+
+
+/* =========================================================================
+   PÁGINA: NUESTRA HISTORIA (historia.html)
+   ========================================================================= */
+
+/* Banner principal con imagen de fondo */
+.historia-hero {
+    position: relative;
+    width: 100%;
+    min-height: 55vh; /* Ocupa un poco más de la mitad de la pantalla */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Empuja el contenido hacia abajo */
+    align-items: flex-start; /* Alinea el contenido a la izquierda */
+    padding: 0 var(--padding-lateral) 60px var(--padding-lateral); /* Respeta tu padding global */
+    
+    /* Configuración de la imagen */
+    background-image: url('./assets/img/bg-jemo.webp'); /* Ruta de tu imagen */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+/* El escudo oscuro (overlay) para que el texto sea legible */
+.historia-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Degradado oscuro que sube desde abajo (donde está el texto) hacia arriba */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0) 100%);
+    z-index: 2;
+}
+
+/* Contenedor del texto por encima del escudo oscuro */
+.historia-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 700px;
+}
+
+.historia-hero-content h1 {
+    font-size: 3.5rem; /* Más grande para que sea imponente */
+    color: var(--white);
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.1;
+}
+
+.historia-hero-content p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--white);
+    opacity: 0.95;
+    margin: 0;
+}
+
+/* Ajustes de este banner para celulares (modifica el bloque de @media de la historia) */
+@media (max-width: 900px) {
+    .historia-hero {
+        min-height: 40vh; /* En celular ocupa menos espacio vertical */
+        padding-bottom: 40px;
+        padding-top: 100px; /* Margen para que el menú fijo no lo tape */
+    }
+    .historia-hero-content h1 { font-size: 2.2rem; }
+    .historia-hero-content p { font-size: 0.95rem; }
+}
+
+/* Espaciado de las secciones */
+.historia-section {
+    padding: 100px var(--padding-lateral);
+    background-color: var(--white);
+}
+.historia-section.bg-light {
+    background-color: var(--light-gray);
+}
+
+/* Las filas de texto e imagen (Intercaladas) */
+.historia-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 80px;
+}
+.historia-row:last-child {
+    margin-bottom: 0;
+}
+/* Magia de CSS: Hace que las filas impares tengan la imagen a la izquierda y pares a la derecha */
+.historia-row:nth-child(even) {
+    flex-direction: row-reverse;
+}
+.historia-col {
+    flex: 1;
+    min-width: 350px;
+}
+
+/* Estilos de los Textos */
+.historia-title {
+    font-size: 2.2rem;
+    color: var(--text-dark);
+    margin-bottom: 25px;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+/* Subrayado elegante debajo del título */
+.historia-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--color-ppe);
+}
+.historia-title.ptj-theme::after {
+    background-color: var(--color-ptj); /* La sección PTJ usa subrayado azul */
+}
+
+.historia-text {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--text-gray);
+    font-weight: 300;
+    text-align: justify;
+}
+
+/* Los bloques grises para indicar dónde irán las fotos */
+.historia-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #eaeaea;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #888888;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+    border: 2px dashed #cccccc;
+}
+
+/* El banner azul institucional de la Corporación de Bienestar */
+.bienestar-banner {
+    background: linear-gradient(135deg, var(--color-ptj), #002855);
+    padding: 80px 60px;
+    border-radius: 12px;
+    color: var(--white);
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 74, 153, 0.2);
+}
+.bienestar-banner h3 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* Responsivo para celulares (Todo se pone en 1 columna) */
+@media (max-width: 900px) {
+    .historia-hero {
+        padding-top: 130px;
+        padding-bottom: 60px;
+    }
+    .historia-hero h1 { font-size: 2.2rem; }
+    
+    .historia-section { padding: 60px var(--padding-lateral); }
+    
+    .historia-row {
+        flex-direction: column !important; /* Apila imagen arriba, texto abajo */
+        gap: 30px;
+        margin-bottom: 60px;
+    }
+    .historia-col { min-width: 100%; }
+    
+    .bienestar-banner {
+        padding: 40px 20px;
+    }
+    .bienestar-banner h3 { font-size: 1.5rem; }
+}

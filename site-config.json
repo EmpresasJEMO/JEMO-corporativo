@@ -1,0 +1,63 @@
+{
+  "hero": [
+    {
+      "titulo": "Empresas JEMO, construyendo el futuro",
+      "subtitulo": "Más de 85 años de solidez, excelencia técnica y liderazgo en Chile.",
+      "archivoFondo": "./assets/videos/video-Hero.mp4",
+      "textoBoton": "Sobre JEMO",
+      "enlaceBoton": "#nosotros"
+    },
+      {
+      "titulo": "Calidad, Seriedad y Excelencia Técnica",
+      "subtitulo": "Nuestros valores fundamentales para entregar soluciones de primer nivel",
+      "archivoFondo": "./assets/videos/hero-jemo.mp4",
+      "textoBoton": "Nuestro legado",
+      "enlaceBoton": "#video-corporativo"
+    },
+    {
+      "titulo": "Postes y Torres JEMO",
+      "subtitulo": "De la tierra al cielo, iluminando el camino con innovación y calidad.",
+      "archivoFondo": "./assets/videos/hero-ptj.mp4",
+      "textoBoton": "Visitar web",
+      "enlaceBoton": "https://ptj.cl"
+    },
+    {
+      "titulo": "PPE, soluciones de energía confiables",
+      "subtitulo": "Tecnología eléctrica de vanguardia y sistemas de protección avanzada para garantizar la seguridad de tu infraestructura.",
+      "archivoFondo": "./assets/videos/hero-ppe.mp4",
+      "textoBoton": "Visitar web",
+      "enlaceBoton": "https://ppe.cl"
+    }
+  
+  ],
+  "proyectos": [
+    {
+      "empresa": "ppe",
+      "enlace": "https://ppe.cl/blogs/proyectos/iluminacion-solar-ppe-en-la-ciudad-mas-austral-del-mundo-puerto-williams",
+      "imagen": "./assets/img/pro-junji.webp",
+      "categoria": "SOLAR: Solar lighting",
+      "titulo": "JUNJI Magallanes"
+    },
+    {
+      "empresa": "ptj",
+      "enlace": "https://ptj.cl/blogs/realizaciones/postes-ptj-en-autopista-americo-vespucio-oriente-avo-tramo-1",
+      "imagen": "./assets/img/pro-avo.webp",
+      "categoria": "FL: Functional Lighting",
+      "titulo": "Vespucio Norte Oriente"
+    },
+    {
+      "empresa": "ppe",
+      "enlace": "https://ppe.cl/blogs/proyectos/pro-ancud.webp",
+      "imagen": "./assets/img/pro-ancud.webp",
+      "categoria": "PDS: Power Distribution Systems",
+      "titulo": "Hospital de Ancud, Chiloé"
+    },
+    {
+      "empresa": "ptj",
+      "enlace": "https://ptj.cl/blogs/realizaciones/iluminando-el-sueno-de-san-miguel-los-mastiles-ptj-protagonistas-del-nuevo-estadio-la-montura",
+      "imagen": "./assets/img/pro-sanmiguel.webp",
+      "categoria": "GM: Grand Masts",
+      "titulo": "Estadio San Miguel"
+    }
+  ]
+}
