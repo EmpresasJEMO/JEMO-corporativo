@@ -877,4 +877,9 @@ video::-webkit-media-controls-start-playback-button {
         padding: 40px 20px;
     }
     .bienestar-banner h3 { font-size: 1.5rem; }
+    .video-solo-desktop { display: none !important; }
+.video-solo-movil { display: block !important; }
 }
+
+.video-solo-movil { display: none; }
+.video-solo-desktop { display: block; }
