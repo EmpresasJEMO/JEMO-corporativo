@@ -721,3 +721,22 @@ window.addEventListener('DOMContentLoaded', () => {
     // Arrancamos la fila con el primer video (el index 0)
     encolarSiguienteVideo(0);
 });
+
+// ==========================================
+// AUTOPLAY DE VIDEO NOSOTROS (FIX iOS)
+// ==========================================
+const videoNosotros = document.querySelector('#video-corporativo video');
+
+if (videoNosotros) {
+    const observerVideo = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                videoNosotros.play().catch(() => {});
+            } else {
+                videoNosotros.pause();
+            }
+        });
+    }, { threshold: 0.3 });
+
+    observerVideo.observe(videoNosotros);
+}
