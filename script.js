@@ -280,28 +280,24 @@ function updateHeroSlider() {
                 video.load();
             }
             
-            // --- NUEVO BLOQUE ANTI-BLOQUEO DE APPLE ---
-            if (video.readyState >= 2) {
-                let playPromise = video.play();
+            const intentarPlay = () => {
+                const playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.catch((error) => {
-                        console.log("Autoplay bloqueado por iOS (Probablemente Ahorro de Batería):", error);
+                        console.log("Autoplay bloqueado por iOS:", error);
                         clearInterval(heroInterval);
                         isHeroPaused = true;
                         document.getElementById('icono-hero-playpause').innerText = 'play_arrow';
                     });
                 }
+            };
+
+            // --- BLOQUE ANTI-BLOQUEO DE APPLE (TU LÓGICA ORIGINAL) ---
+            if (video.readyState >= 2) {
+                intentarPlay();
             } else {
                 const onReady = () => {
-                    let playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch((error) => {
-                            console.log("Autoplay bloqueado por iOS (Probablemente Ahorro de Batería):", error);
-                            clearInterval(heroInterval);
-                            isHeroPaused = true;
-                            document.getElementById('icono-hero-playpause').innerText = 'play_arrow';
-                        });
-                    }
+                    intentarPlay();
                     video.removeEventListener('loadeddata', onReady);
                 };
                 video.addEventListener('loadeddata', onReady);
@@ -312,15 +308,11 @@ function updateHeroSlider() {
             video.pause();
         }
     });
-    // ------------------------------------
 
+    // Actualizar dots
     const dots = document.querySelectorAll('.hero-dot');
     dots.forEach((dot, index) => {
-        if (index === currentHeroIndex) {
-            dot.classList.add('active');
-        } else {
-            dot.classList.remove('active');
-        }
+        dot.classList.toggle('active', index === currentHeroIndex);
     });
 }
 
@@ -329,37 +321,31 @@ function nextHeroSlide() {
     updateHeroSlider();
     resetHeroAutoplay();
 }
-
 function prevHeroSlide() {
     currentHeroIndex = (currentHeroIndex - 1 + totalHeroSlides) % totalHeroSlides;
     updateHeroSlider();
     resetHeroAutoplay();
 }
-
 function goToHeroSlide(index) {
     currentHeroIndex = index;
     updateHeroSlider();
     resetHeroAutoplay(); 
 }
-
 function startHeroAutoplay() {
     clearInterval(heroInterval);
     if (isHeroPaused) return;
     heroInterval = setInterval(nextHeroSlide, 10000);
 }
-
 function resetHeroAutoplay() {
     startHeroAutoplay();
 }
-
 function toggleHeroState() {
     const iconoPausa = document.getElementById('icono-hero-playpause');
-    const heroVideos = document.querySelectorAll('.video-background'); 
-
+    // FIX: solo el video activo, no todos
+    const videoActivo = document.querySelector(`.hero-slide:nth-child(${currentHeroIndex + 1}) video`);
     if (!iconoPausa) return;
 
     isHeroPaused = !isHeroPaused;
-
     iconoPausa.classList.remove('giro-animado');
     void iconoPausa.offsetWidth;
     iconoPausa.classList.add('giro-animado');
@@ -367,16 +353,16 @@ function toggleHeroState() {
     setTimeout(() => {
         if (isHeroPaused) {
             iconoPausa.innerText = 'play_arrow';
-            heroVideos.forEach(video => video.pause());
+            if (videoActivo) videoActivo.pause();
             clearInterval(heroInterval);
         } else {
             iconoPausa.innerText = 'pause';
-            heroVideos.forEach(video => {
-                const playPromise = video.play();
+            if (videoActivo) {
+                const playPromise = videoActivo.play();
                 if (playPromise && typeof playPromise.catch === 'function') {
                     playPromise.catch(() => {});
                 }
-            });
+            }
             startHeroAutoplay();
         }
     }, 250);
@@ -387,20 +373,26 @@ function toggleHeroState() {
 // ==========================================
 let heroStartX = 0;
 let heroEndX = 0;
+let heroStartY = 0; // 👈 nuevo
+
 const heroSection = document.getElementById('inicio');
 
 if (heroSection) {
-    // 1. Eventos para Celular (Touch) usando clientX (Inmune a bloqueos de capas)
     heroSection.addEventListener('touchstart', e => {
         heroStartX = e.touches[0].clientX;
+        heroStartY = e.touches[0].clientY; // 👈 nuevo
     }, { passive: true });
 
     heroSection.addEventListener('touchend', e => {
         heroEndX = e.changedTouches[0].clientX;
-        procesarSwipeHero();
+        const heroEndY = e.changedTouches[0].clientY; // 👈 nuevo
+        
+        // Solo procesar si el movimiento fue más horizontal que vertical
+        if (Math.abs(heroEndX - heroStartX) > Math.abs(heroEndY - heroStartY)) { // 👈 nuevo
+            procesarSwipeHero();
+        }
     }, { passive: true });
 
-    // 2. Eventos para Mouse (PC) por consistencia
     let mousePresionadoHero = false;
     heroSection.addEventListener('mousedown', e => {
         heroStartX = e.clientX;
@@ -415,15 +407,10 @@ if (heroSection) {
     heroSection.addEventListener('mouseleave', () => mousePresionadoHero = false);
 }
 
-// 3. Evaluamos si el movimiento fue suficiente para cambiar de slide
 function procesarSwipeHero() {
-    const umbral = 60; // Píxeles mínimos que debe moverse el dedo
-    if (heroEndX < heroStartX - umbral) {
-        nextHeroSlide(); // Deslizó hacia la izquierda -> Siguiente
-    }
-    if (heroEndX > heroStartX + umbral) {
-        prevHeroSlide(); // Deslizó hacia la derecha -> Anterior
-    }
+    const umbral = 60;
+    if (heroEndX < heroStartX - umbral) nextHeroSlide();
+    if (heroEndX > heroStartX + umbral) prevHeroSlide();
 }
 
 // ==========================================
